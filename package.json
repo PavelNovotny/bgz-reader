@@ -1,0 +1,32 @@
+{
+  "name": "bgz-reader",
+  "version": "1.0.0",
+  "description": "javascript module for reading proprietary bgz files (block gz)",
+  "main": "./lib/bgz-reader.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha ./test/test-bgz-reader.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PavelNovotny/bgz-reader.git"
+  },
+  "keywords": [
+    "bgz-reader",
+    "hash-reader",
+    "hash-seek"
+  ],
+  "author": "Pavel Novotny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PavelNovotny/bgz-reader/issues"
+  },
+  "homepage": "https://github.com/PavelNovotny/bgz-reader#readme",
+  "dependencies": {
+    "async": "^2.0.0-rc.5",
+    "bunyan": "^1.8.1",
+    "node-cache": "^3.2.1"
+  }
+}
