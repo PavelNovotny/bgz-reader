@@ -7,8 +7,8 @@ var bgzReader = require("../lib/bgz-reader.js");
 var bunyan = require('bunyan');
 var log = bunyan.createLogger({name: "testBgzReader"});
 log.level("info");
-var testIndexFile = {file:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz", indexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz.ind"};
-var testFile = {file:"../hashSeek/hashSeekFiles/jms_s1_alsb_aspect.audit.20150425.bgz", indexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.ind"};
+var testIndexFile = {bgzFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz", bgzIndexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz.ind"};
+var testFile = {bgzFile:"../hashSeek/hashSeekFiles/jms_s1_alsb_aspect.audit.20150425.bgz", bgzIndexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.ind"};
 
 describe('bgzReader', function() {
     describe('#readInt()', function() {
