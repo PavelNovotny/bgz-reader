@@ -124,64 +124,108 @@ describe('bgzIndexReader', function() {
         });
     });
     describe('#findIndexBuffers()', function() {
-        var indexBufs = [{"gzipAddr": 0, "realAddr": 0, "positionStart": 256, "rowCount": 300}, {
+        var indexBufs = [{"gzipAddr": 0, "realAddr": 0, "positionStart": 256, "rowCount": 301}, {
             "gzipAddr": 2256951,
             "realAddr": 59988000,
             "positionStart": 5056,
-            "rowCount": 300
-        }, {"gzipAddr": 4894591, "realAddr": 119976000, "positionStart": 9856, "rowCount": 300}, {
+            "rowCount": 302
+        }, {"gzipAddr": 4894591, "realAddr": 119976000, "positionStart": 9856, "rowCount": 303}, {
             "gzipAddr": 7667656,
             "realAddr": 179964000,
             "positionStart": 14656,
-            "rowCount": 300
+            "rowCount": 304
         }, {
             "gzipAddr": 10662170,
             "realAddr": 239952000,
             "positionStart": 19456,
-            "rowCount": 300
+            "rowCount": 305
         }, {
             "gzipAddr": 19181274,
             "realAddr": 299940000,
             "positionStart": 24256,
-            "rowCount": 300
+            "rowCount": 306
         }, {
             "gzipAddr": 22889632,
             "realAddr": 359928000,
             "positionStart": 29056,
-            "rowCount": 300
+            "rowCount": 307
         }, {
             "gzipAddr": 25965057,
             "realAddr": 419916000,
             "positionStart": 33856,
-            "rowCount": 300
-        }, {"gzipAddr": 28682182, "realAddr": 479904000, "positionStart": 38656, "rowCount": 240}]
+            "rowCount": 308
+        }, {"gzipAddr": 28682182, "realAddr": 479904000, "positionStart": 38656, "rowCount": 309}];
         it('should find right buffers', function(done) {
-            bgzReader.findIndexBuffers(indexBufs, 0, 0, function(err, found) {
-                assert.equal(found.indexStart, 0, "indexStart");
-                assert.equal(found.indexEnd, 1, "indexEnd");
-                done();
-            });
+            var found = bgzReader.findIndexBuffers(indexBufs, 0, 0);
+            assert.equal(found.positionStart, 256, "indexStart");
+            assert.equal(found.rowCount, 301, "indexEnd");
+            done();
         });
         it('should find right buffers', function(done) {
-            bgzReader.findIndexBuffers(indexBufs, 0, 59988000, function(err, found) {
-                assert.equal(found.indexStart, 0, "indexStart");
-                assert.equal(found.indexEnd, 2, "indexEnd");
-                done();
-            });
+            var found = bgzReader.findIndexBuffers(indexBufs, 0, 59987999);
+            assert.equal(found.positionStart, 256, "indexStart");
+            assert.equal(found.rowCount, 301, "indexEnd");
+            done();
         });
         it('should find right buffers', function(done) {
-            bgzReader.findIndexBuffers(indexBufs, 479904000, 479904001, function(err, found) {
-                assert.equal(found.indexStart, 8, "indexStart");
-                assert.equal(found.indexEnd, 8, "indexEnd");
-                done();
-            });
+            var found = bgzReader.findIndexBuffers(indexBufs, 0, 59988000);
+            assert.equal(found.positionStart, 256, "indexStart");
+            assert.equal(found.rowCount, 603, "indexEnd");
+            done();
         });
         it('should find right buffers', function(done) {
-            bgzReader.findIndexBuffers(indexBufs, 479903000, 479904001, function(err, found) {
-                assert.equal(found.indexStart, 7, "indexStart");
-                assert.equal(found.indexEnd, 8, "indexEnd");
-                done();
-            });
+            var found = bgzReader.findIndexBuffers(indexBufs, 0, 479904001);
+            assert.equal(found.positionStart, 256, "indexStart");
+            assert.equal(found.rowCount, 2745, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 479904000, 479904001);
+            assert.equal(found.positionStart, 38656, "indexStart");
+            assert.equal(found.rowCount, 309, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 479903999, 479904001);
+            assert.equal(found.positionStart, 33856, "indexStart");
+            assert.equal(found.rowCount, 617, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 479904000, 479904001);
+            assert.equal(found.positionStart, 38656, "indexStart");
+            assert.equal(found.rowCount, 309, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 239952000, 359928000);
+            assert.equal(found.positionStart, 19456, "indexStart");
+            assert.equal(found.rowCount, 305+306+307, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 239952100, 359928000);
+            assert.equal(found.positionStart, 19456, "indexStart");
+            assert.equal(found.rowCount, 305+306+307, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 239952100, 359928001);
+            assert.equal(found.positionStart, 19456, "indexStart");
+            assert.equal(found.rowCount, 305+306+307, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 239952100, 239952101);
+            assert.equal(found.positionStart, 19456, "indexStart");
+            assert.equal(found.rowCount, 305, "indexEnd");
+            done();
+        });
+        it('should find right buffers', function(done) {
+            var found = bgzReader.findIndexBuffers(indexBufs, 999999998, 999999999);
+            assert.equal(found.positionStart, 38656, "indexStart");
+            assert.equal(found.rowCount, 309, "indexEnd");
+            done();
         });
     });
 });
