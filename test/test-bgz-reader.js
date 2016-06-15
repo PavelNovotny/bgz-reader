@@ -10,96 +10,39 @@ var bunyan = require('bunyan');
 var log = bunyan.createLogger({name: "testBgzReader"});
 log.level("info");
 var testIndexFile = {bgzFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz", bgzIndexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.hash_v1.bgz.ind"};
-var testFile = {bgzFile:"../hashSeek/hashSeekFiles/jms_s1_alsb_aspect.audit.20150425.bgz", bgzIndexFile:"../hashSeek/hashSeekFiles/hash/jms_s1_alsb_aspect.audit.20150425.bgz.ind"};
+var testFile = {bgzFile:"/Users/pavelnovotny/WebstormProjects/bgz-reader/test/test-files/jms_s1_alsb_aspect.audit.20160615.12.bgz", bgzIndexFile:"/Users/pavelnovotny/WebstormProjects/bgz-reader/test/test-files/jms_s1_alsb_aspect.audit.20160615.12.bgz.ind"};
+var testIndFile = "/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.20150413.bgz.ind";
 
 describe('bgzReader', function() {
-    describe('#readInt()', function() {
-        it('should read int from bgz file', function(done) {
-            bgzReader.readInt(testIndexFile, 0, 4, function(int) {
-                log.info("int", int);
-                done();
-            });
-        });
-    });
-    describe('#readIntNext()', function() {
-        it('should be much quicker', function(done) {
-            bgzReader.readInt(testIndexFile, 0, 4, function(int) {
-                log.info("int", int);
-                done();
-            });
-        });
-    });
     describe('#readString()', function() {
         it('should read a string', function(done) {
-            bgzReader.readString(testFile, 0, 4, function(string) {
+            bgzReader.readString(testFile, 434056, 20, function(err, string) {
+                if (err) log.info(err);
+                log.info("String", string);
+                done();
+            });
+        });
+        it('should read a string', function(done) {
+            bgzReader.readString(testFile, 0, 20, function(err, string) {
+                if (err) log.info(err);
+                log.info("String", string);
+                done();
+            });
+        });
+        it('should read a string', function(done) {
+            bgzReader.readString(testFile, 1, 20, function(err, string) {
+                if (err) log.info(err);
                 log.info("String", string);
                 done();
             });
         });
     });
-    describe('#readStringNext()', function() {
-        it('should read much quicker a string', function(done) {
-            bgzReader.readString(testFile, 0, 100, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 958287412, 6242, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 958359464, 16549, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 958295758, 17538, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 2326806730, 7756, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 3067240835, 16967, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-    describe('#readStringNext()', function() {
-        it('should read from middle of the file', function(done) {
-            bgzReader.readString(testFile, 5459406307, 5108, function(string) {
-                log.info("String", string);
-                done();
-            });
-        });
-    });
-
 });
 
 describe('bgzIndexReader', function() {
     describe('#readBufCount()', function() {
         it('should read buffer count', function(done) {
-            var fd = fs.openSync("/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.20150413.bgz.ind","r");
+            var fd = fs.openSync(testIndFile,"r");
             bgzReader.readBufCount(fd, function(err, bufCount) {
                 assert.equal(bufCount, 9, "bufCount");
                 done();
@@ -108,7 +51,7 @@ describe('bgzIndexReader', function() {
     });
     describe('#readBgzIndexBuffers()', function() {
         it('should read complete bgz index buffer', function(done) {
-            var fd = fs.openSync("/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.20150413.bgz.ind","r");
+            var fd = fs.openSync(testIndFile,"r");
             bgzReader.readIndexBuffers(fd, 9, function(err, indexBufs) {
                 assert.equal(indexBufs.length,9, "IndexBufs of tested file");
                 assert.equal(indexBufs[0].gzipAddr,0, "gzipAddr of tested file");
@@ -229,7 +172,7 @@ describe('bgzIndexReader', function() {
         });
     });
     describe('#impactedBlocks()', function() {
-        var fd = fs.openSync("/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.20150413.bgz.ind","r");
+        var fd = fs.openSync(testIndFile,"r");
         it('should fill impacted blocks', function(done) {
             bgzReader.impactedBlocks(fd, 59988001, 59988005, 5056, 300, function(err, impactedBlocks) {
                 assert.equal(impactedBlocks.length, 1, "impactedBlocks len");
