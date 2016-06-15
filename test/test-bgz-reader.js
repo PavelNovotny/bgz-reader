@@ -228,4 +228,47 @@ describe('bgzIndexReader', function() {
             done();
         });
     });
+    describe('#impactedBlocks()', function() {
+        var fd = fs.openSync("/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.20150413.bgz.ind","r");
+        it('should fill impacted blocks', function(done) {
+            bgzReader.impactedBlocks(fd, 59988001, 59988005, 5056, 300, function(err, impactedBlocks) {
+                assert.equal(impactedBlocks.length, 1, "impactedBlocks len");
+                assert.equal(impactedBlocks[0].gzipAddrFrom, 2256951, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].realAddrFrom, 59988000, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].gzipAddrTo, 2265949, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].realAddrTo, 60187960, "impactedBlocks content");
+                done();
+            });
+        });
+        it('should fill impacted blocks', function(done) {
+            bgzReader.impactedBlocks(fd, 63387319, 63787240, 5056, 300, function(err, impactedBlocks) {
+                assert.equal(impactedBlocks.length, 4, "impactedBlocks len");
+                assert.equal(impactedBlocks[0].gzipAddrFrom, 2402448, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].realAddrFrom, 63187360, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].gzipAddrTo, 2411955, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].realAddrTo, 63387320, "impactedBlocks content");
+                assert.equal(impactedBlocks[1].gzipAddrFrom, 2411955, "impactedBlocks content");
+                assert.equal(impactedBlocks[1].realAddrFrom, 63387320, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].gzipAddrTo, 2429130, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].realAddrTo, 63787240, "impactedBlocks content");
+                assert.equal(impactedBlocks[3].gzipAddrFrom, 2429130, "impactedBlocks content");
+                assert.equal(impactedBlocks[3].realAddrFrom, 63787240, "impactedBlocks content");
+                done();
+            });
+        });
+        it('should fill impacted blocks', function(done) {
+            bgzReader.impactedBlocks(fd, 527294522, 527724776, 38656, 240, function(err, impactedBlocks) {
+                assert.equal(impactedBlocks.length, 3, "impactedBlocks len");
+                assert.equal(impactedBlocks[0].gzipAddrFrom, 31605545, "impactedBlocks content");
+                assert.equal(impactedBlocks[0].realAddrFrom, 527294520, "impactedBlocks content");
+                assert.equal(impactedBlocks[1].gzipAddrFrom, 31614913, "impactedBlocks content");
+                assert.equal(impactedBlocks[1].realAddrFrom, 527494480, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].gzipAddrFrom, 31625233, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].realAddrFrom, 527694440, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].gzipAddrTo, 31625233+500000, "impactedBlocks content");
+                assert.equal(impactedBlocks[2].realAddrTo, 527724776, "impactedBlocks content");
+                done();
+            });
+        });
+    });
 });
