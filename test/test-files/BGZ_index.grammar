@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ufwb version="1.9">
+    <grammar name="IND grammar" start="id:32" author="Pavel Novotný" fileextension="ind">
+        <description>Grammar for IND files</description>
+        <structure name="IND file" id="32" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <number name="blockBufferCount" id="39" type="integer" length="4"/>
+            <structure name="blockBuffer" id="42" repeat="id:39" repeatmin="0" repeatmax="-1">
+                <number name="gzipAddr" id="40" type="integer" length="8"/>
+                <number name="realAddr" id="36" type="integer" length="8"/>
+                <number name="positionStart" id="37" type="integer" length="8"/>
+                <number name="rowCount" id="41" type="integer" length="4"/>
+            </structure>
+            <structure name="block" id="44" repeatmax="-1">
+                <number name="gzipAddr" id="46" type="integer" length="8"/>
+                <number name="realAddr" id="47" type="integer" length="8"/>
+            </structure>
+            <number name="originalFileLength" id="48" type="integer" length="8"/>
+        </structure>
+    </grammar>
+</ufwb>
