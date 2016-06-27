@@ -52,7 +52,7 @@ describe('bgzIndexReader', function() {
     describe('#readBgzIndexBuffers()', function() {
         it('should read complete bgz index buffer', function(done) {
             var fd = fs.openSync(testIndFile,"r");
-            bgzReader.readIndexBuffers(fd, 9, function(err, indexBufs) {
+            bgzReader.readIndexBuffers({fd:fd, bufCount:9}, function(err, indexBufs) {
                 assert.equal(indexBufs.length,9, "IndexBufs of tested file");
                 assert.equal(indexBufs[0].gzipAddr,0, "gzipAddr of tested file");
                 assert.equal(indexBufs[0].realAddr,0, "realAddr of tested file");
