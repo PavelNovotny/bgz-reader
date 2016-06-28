@@ -28,7 +28,6 @@
     "async": "^2.0.0-rc.5",
     "bunyan": "^1.8.1",
     "fd-cache": "git+https://github.com/PavelNovotny/fd-cache.git",
-    "node-cache": "^3.2.1",
     "object-cache": "git+https://github.com/PavelNovotny/object-cache.git"
   }
 }
