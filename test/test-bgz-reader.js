@@ -4,6 +4,7 @@
  */
 
 var bgzReader = require("../lib/bgz-reader.js");
+var async = require('async');
 var fs = require("fs");
 var assert = require("assert");
 var bunyan = require('bunyan');
@@ -15,6 +16,42 @@ var testIndFile = "/Users/pavelnovotny/binaryGrammar/other_s1_alsb_aspect.audit.
 
 describe('bgzReader', function() {
     describe('#readString()', function() {
+        it('should read parallel', function(done) {
+            async.parallel([
+                    function(callback){
+                        bgzReader.readString(testFile, 434056, 20, function(err, string) {
+                            if (err) callback(err);
+                            log.info("String", string);
+                            callback();
+                        });
+                    },
+                    function(callback){
+                        bgzReader.readString(testFile, 434056, 20, function(err, string) {
+                            if (err) callback(err);
+                            log.info("String", string);
+                            callback();
+                        });
+                    },
+                    function(callback){
+                        bgzReader.readString(testFile, 434056, 20, function(err, string) {
+                            if (err) callback(err);
+                            log.info("String", string);
+                            callback();
+                        });
+                    }
+                ],
+                function(err, results) {
+                    if (err) log.info(err);
+                    done();
+                });
+        });
+        it('should read a string', function(done) {
+            bgzReader.readString(testFile, 434056, 20, function(err, string) {
+                if (err) log.info(err);
+                log.info("String", string);
+                done();
+            });
+        });
         it('should read a string', function(done) {
             bgzReader.readString(testFile, 434056, 20, function(err, string) {
                 if (err) log.info(err);
