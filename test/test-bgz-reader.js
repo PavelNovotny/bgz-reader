@@ -36,6 +36,13 @@ describe('bgzReader', function() {
                 done();
             });
         });
+        it('should read a string', function(done) {
+            bgzReader.readString(testFile, 1, 20, function(err, string) {
+                if (err) log.info(err);
+                log.info("String", string);
+                done();
+            });
+        });
     });
 });
 
