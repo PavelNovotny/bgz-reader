@@ -36,6 +36,13 @@ describe('bgzReader', function() {
                 done();
             });
         });
+        it('should read a string', function(done) {
+            bgzReader.readString(testFile, 1, 20, function(err, string) {
+                if (err) log.info(err);
+                log.info("String", string);
+                done();
+            });
+        });
     });
 });
 
@@ -52,7 +59,7 @@ describe('bgzIndexReader', function() {
     describe('#readBgzIndexBuffers()', function() {
         it('should read complete bgz index buffer', function(done) {
             var fd = fs.openSync(testIndFile,"r");
-            bgzReader.readIndexBuffers(fd, 9, function(err, indexBufs) {
+            bgzReader.readIndexBuffers({fd:fd, bufCount:9}, function(err, indexBufs) {
                 assert.equal(indexBufs.length,9, "IndexBufs of tested file");
                 assert.equal(indexBufs[0].gzipAddr,0, "gzipAddr of tested file");
                 assert.equal(indexBufs[0].realAddr,0, "realAddr of tested file");
